@@ -1,5 +1,4 @@
-# gonf
-
+/*
 Package _gonf_ provides an interface to a simple configuration file format.
 
 Below is a simple example to introduce you to the format.
@@ -125,7 +124,7 @@ A problem that arises in practice is the need to traverse through non-scalar typ
 	    fmt.Println(index, value)
 	})
 
-### Using the underlying data structure
+### Using the underlying implemented data structure
 
     a := config.Array()
 	
@@ -161,32 +160,11 @@ Here is the LL(1) grammar:
     values -> value values | &
     string -> quoted-string | unquoted-string
     quoted-string -> " LITERAL "
-    unquoted-string -> SYMBOL
+    unquoted-string -> NONSPACED-LITERAL
 
     LITERAL => <ANYTHING SUPPORTED BY THE IMPLEMENTATION>
-    SYMBOL => <NONSPACED-LITERAL>
+    NONSPACED-LITERAL => <LITERAL WITHOUT SPACES>
 
 [the golang string specification](http://golang.org/ref/spec#String_literals)
-
-Below is the predict table:
-
-|              production              |          stack          |
-|:------------------------------------:|:-----------------------:|
-|        pair -> key value pair        |        " SYMBOL         |
-|               pair -> &              |            &            |
-|             key -> string            |        " SYMBOL         |
-|            value -> table            |            {            |
-|            value -> array            |            [            |
-|            value -> string           |        " SYMBOL         |
-|           table -> { pair }          |            {            |
-|          array -> [ values ]         |            [            |
-|        values -> value values        |     { [ " SYMBOL        |
-|             values ->  &             |            &            |
-|        string -> quoted-string       |            "            |
-|       string -> unquoted-string      |         SYMBOL          |
-|     quoted-string -> " LITERAL "     |            "            |
-|       unquoted-string -> SYMBOL      |         SYMBOL          |
-
-# TODO
- - Study implicit semi-colons to support unquoted long strings with spaces. It will probably defeat the regular language of the lexer but, you know, we can try.
- - Write a real spec.
+*/
+package gonf
